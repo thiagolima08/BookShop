@@ -10,6 +10,12 @@ import bookshop.model.Buyer;
 import bookshop.model.Order;
 
 public class OrderService {
+	private DaoInterface<Order> orderDao;
+	
+	public OrderService(DaoInterface<Order> orderDao) {
+		this.orderDao = orderDao;
+	}
+
 	private static void validateBuyer(Buyer buyer) throws Exception {
 		if (buyer == null)
 			throw new RequiredException("pedido[cliente]");
@@ -20,7 +26,7 @@ public class OrderService {
 			throw new RequiredException("pedido[livros]");
 	}
 
-	public static Order create(DaoInterface<Order> orderDao, Buyer buyer, List<Book> books, Boolean paid) throws Exception {
+	public Order create(Buyer buyer, List<Book> books, Boolean paid) throws Exception {
 		OrderService.validateBuyer(buyer);
 		OrderService.validateBooks(books);
 		Order order = new Order(buyer, books, paid);
@@ -28,7 +34,7 @@ public class OrderService {
 		return order;
 	}
 
-	public static Order update(DaoInterface<Order> orderDao, Integer number, Buyer buyer, List<Book> books, Boolean paid) throws Exception {
+	public Order update(Integer number, Buyer buyer, List<Book> books, Boolean paid) throws Exception {
 		OrderService.validateBuyer(buyer);
 		OrderService.validateBooks(books);
 
@@ -45,7 +51,7 @@ public class OrderService {
 		return order;
 	}
 
-	public static Order remove(DaoInterface<Order> orderDao, Integer number) throws Exception {
+	public Order remove(Integer number) throws Exception {
 		Order order = orderDao.read(number);
 
 		if (order == null) {
@@ -57,15 +63,15 @@ public class OrderService {
 		return order;
 	}
 
-	public static Order read(DaoInterface<Order> orderDao, Integer number) {
+	public Order read(Integer number) {
 		return orderDao.read(number);
 	}
 
-	public static List<Order> readAll(DaoInterface<Order> orderDao) {
+	public List<Order> readAll() {
 		return orderDao.readAll();
 	}
 
-	public static List<Order> searchByField(DaoInterface<Order> orderDao, String field, Object value) {
+	public List<Order> searchByField(String field, Object value) {
 		return orderDao.searchByField(field, value);
 	}
 }

@@ -3,18 +3,18 @@ package core;
 import java.util.ArrayList;
 import java.util.List;
 
-import bookshop.dao.GenericDao;
 import bookshop.dao.BookDao;
 import bookshop.dao.BuyerDao;
+import bookshop.dao.GenericDao;
 import bookshop.dao.OrderDao;
 import bookshop.model.Book;
 import bookshop.model.Buyer;
 import bookshop.model.Order;
 
 public class BookshopFacade {
-	private static BuyerDao buyerDao = new BuyerDao();
-	private static BookDao bookDao = new BookDao();
-	private static OrderDao orderDao = new OrderDao();
+	private static BookService bookService = new BookService(new BookDao());
+	private static BuyerService buyerService = new BuyerService(new BuyerDao());
+	private static OrderService orderService = new OrderService(new OrderDao());
 
 	public static void start() {
 		GenericDao.open();
@@ -30,7 +30,7 @@ public class BookshopFacade {
 	public static void createBuyer(String name, String cpf, String phone, String email) throws Exception {
 		GenericDao.begin();
 		try {
-			BuyerService.create(buyerDao, name, cpf, phone, email);
+			buyerService.create(name, cpf, phone, email);
 		} catch (Exception e) {
 			GenericDao.rollback();
 			throw e;
@@ -41,7 +41,7 @@ public class BookshopFacade {
 	public static void updateBuyer(String name, String cpf, String phone, String email) throws Exception {
 		GenericDao.begin();
 		try {
-			BuyerService.update(buyerDao, name, cpf, phone, email);
+			buyerService.update(name, cpf, phone, email);
 		} catch (Exception e) {
 			GenericDao.rollback();
 			throw e;
@@ -52,7 +52,7 @@ public class BookshopFacade {
 	public static void removeBuyer(String cpf) throws Exception {
 		GenericDao.begin();
 		try {
-			BuyerService.remove(buyerDao, cpf);
+			buyerService.remove(cpf);
 		} catch (Exception e) {
 			GenericDao.rollback();
 			throw e;
@@ -65,7 +65,7 @@ public class BookshopFacade {
 
 		GenericDao.begin();
 		try {
-			buyer = BuyerService.read(buyerDao, cpf);
+			buyer = buyerService.read(cpf);
 		} catch (Exception e) {
 			GenericDao.rollback();
 			throw e;
@@ -80,7 +80,7 @@ public class BookshopFacade {
 
 		GenericDao.begin();
 		try {
-			buyers = BuyerService.readAll(buyerDao);
+			buyers = buyerService.readAll();
 		} catch (Exception e) {
 			GenericDao.rollback();
 			throw e;
@@ -95,7 +95,7 @@ public class BookshopFacade {
 
 		GenericDao.begin();
 		try {
-			buyers = BuyerService.searchByField(buyerDao, "name", name);
+			buyers = buyerService.searchByField("name", name);
 		} catch (Exception e) {
 			GenericDao.rollback();
 			throw e;
@@ -111,7 +111,7 @@ public class BookshopFacade {
 	public static void createBook(String title, String isbn, String publisher, String author, Double price) throws Exception {
 		GenericDao.begin();
 		try {
-			BookService.create(bookDao, title, isbn, publisher, author, price);
+			bookService.create(title, isbn, publisher, author, price);
 		} catch (Exception e) {
 			GenericDao.rollback();
 			throw e;
@@ -122,7 +122,7 @@ public class BookshopFacade {
 	public static void updateBook(String title, String isbn, String publisher, String author, Double price) throws Exception {
 		GenericDao.begin();
 		try {
-			BookService.update(bookDao, title, isbn, publisher, author, price);
+			bookService.update(title, isbn, publisher, author, price);
 		} catch (Exception e) {
 			GenericDao.rollback();
 			throw e;
@@ -133,7 +133,7 @@ public class BookshopFacade {
 	public static void removeBook(String isbn) throws Exception {
 		GenericDao.begin();
 		try {
-			BookService.remove(bookDao, isbn);
+			bookService.remove(isbn);
 		} catch (Exception e) {
 			GenericDao.rollback();
 			throw e;
@@ -146,7 +146,7 @@ public class BookshopFacade {
 
 		GenericDao.begin();
 		try {
-			book = BookService.read(bookDao, isbn);
+			book = bookService.read(isbn);
 		} catch (Exception e) {
 			GenericDao.rollback();
 			throw e;
@@ -161,7 +161,7 @@ public class BookshopFacade {
 
 		GenericDao.begin();
 		try {
-			books = BookService.readAll(bookDao);
+			books = bookService.readAll();
 		} catch (Exception e) {
 			GenericDao.rollback();
 			throw e;
@@ -176,7 +176,7 @@ public class BookshopFacade {
 
 		GenericDao.begin();
 		try {
-			books = BookService.searchByField(bookDao, "title", title);
+			books = bookService.searchByField("title", title);
 		} catch (Exception e) {
 			GenericDao.rollback();
 			throw e;
@@ -192,12 +192,12 @@ public class BookshopFacade {
 	public static void createOrder(String cpf, List<String> isbns, Boolean paid) throws Exception {
 		GenericDao.begin();
 		try {
-			Buyer buyer = BuyerService.read(buyerDao, cpf);
+			Buyer buyer = buyerService.read(cpf);
 			List<Book> books = new ArrayList<Book>();
 			for (String isbn : isbns) {
-				books.add(BookService.read(bookDao, isbn));
+				books.add(bookService.read(isbn));
 			}
-			OrderService.create(orderDao, buyer, books, paid);
+			orderService.create(buyer, books, paid);
 		} catch (Exception e) {
 			GenericDao.rollback();
 			throw e;
@@ -208,12 +208,12 @@ public class BookshopFacade {
 	public static void updateOrder(Integer number, String cpf, List<String> isbns, Boolean paid) throws Exception {
 		GenericDao.begin();
 		try {
-			Buyer buyer = BuyerService.read(buyerDao, cpf);
+			Buyer buyer = buyerService.read(cpf);
 			List<Book> books = new ArrayList<Book>();
 			for (String isbn : isbns) {
-				books.add(BookService.read(bookDao, isbn));
+				books.add(bookService.read(isbn));
 			}
-			OrderService.update(orderDao, number, buyer, books, paid);
+			orderService.update(number, buyer, books, paid);
 		} catch (Exception e) {
 			GenericDao.rollback();
 			throw e;
@@ -224,7 +224,7 @@ public class BookshopFacade {
 	public static void removeOrder(Integer number) throws Exception {
 		GenericDao.begin();
 		try {
-			OrderService.remove(orderDao, number);
+			orderService.remove(number);
 		} catch (Exception e) {
 			GenericDao.rollback();
 			throw e;
@@ -237,7 +237,7 @@ public class BookshopFacade {
 
 		GenericDao.begin();
 		try {
-			order = OrderService.read(orderDao, number);
+			order = orderService.read(number);
 		} catch (Exception e) {
 			GenericDao.rollback();
 			throw e;
@@ -252,7 +252,7 @@ public class BookshopFacade {
 
 		GenericDao.begin();
 		try {
-			orders = OrderService.readAll(orderDao);
+			orders = orderService.readAll();
 		} catch (Exception e) {
 			GenericDao.rollback();
 			throw e;
@@ -267,7 +267,7 @@ public class BookshopFacade {
 
 		GenericDao.begin();
 		try {
-			orders = BookService.read(bookDao, isbn).getOrders();
+			orders = bookService.read(isbn).getOrders();
 		} catch (Exception e) {
 			GenericDao.rollback();
 			throw e;
@@ -282,7 +282,7 @@ public class BookshopFacade {
 
 		GenericDao.begin();
 		try {
-			orders = BuyerService.read(buyerDao, cpf).getOrders();
+			orders = buyerService.read(cpf).getOrders();
 		} catch (Exception e) {
 			GenericDao.rollback();
 			throw e;

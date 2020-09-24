@@ -16,11 +16,11 @@ public class GenericDao<T> implements DaoInterface<T> {
 
 	public GenericDao(String id, boolean update, boolean delete, boolean active) {
 		ID = id;
-		GenericDao.config.common().objectClass(this.getKlass()).objectField(ID).indexed(true);
+		config.common().objectClass(this.getKlass()).objectField(ID).indexed(true);
 		
-		GenericDao.config.common().objectClass(this.getKlass()).cascadeOnUpdate(update);
-		GenericDao.config.common().objectClass(this.getKlass()).cascadeOnDelete(delete);
-		GenericDao.config.common().objectClass(this.getKlass()).cascadeOnActivate(active);
+		config.common().objectClass(this.getKlass()).cascadeOnUpdate(update);
+		config.common().objectClass(this.getKlass()).cascadeOnDelete(delete);
+		config.common().objectClass(this.getKlass()).cascadeOnActivate(active);
 	}
 
 	/*

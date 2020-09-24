@@ -10,6 +10,12 @@ import bookshop.exception.ValidationException;
 import bookshop.model.Buyer;
 
 public class BuyerService {
+	private DaoInterface<Buyer> buyerDao;
+	
+	public BuyerService(DaoInterface<Buyer> buyerDao) {
+		this.buyerDao = buyerDao;
+	}
+
 	private static void validateName(String name) throws Exception {
 		if (name.isEmpty())
 			throw new RequiredException("cliente[nome]");
@@ -34,7 +40,7 @@ public class BuyerService {
 			throw new RequiredException("cliente[email]");
 	}
 
-	public static Buyer create(DaoInterface<Buyer> buyerDao, String name, String cpf, String phone, String email) throws Exception {
+	public Buyer create(String name, String cpf, String phone, String email) throws Exception {
 		BuyerService.validateName(name);
 		BuyerService.validateCpf(cpf);
 		BuyerService.validatePhone(phone);
@@ -51,7 +57,7 @@ public class BuyerService {
 		return buyer;
 	}
 
-	public static Buyer update(DaoInterface<Buyer> buyerDao, String name, String cpf, String phone, String email) throws Exception {
+	public Buyer update(String name, String cpf, String phone, String email) throws Exception {
 		BuyerService.validateName(name);
 		BuyerService.validateCpf(cpf);
 		BuyerService.validatePhone(phone);
@@ -70,7 +76,7 @@ public class BuyerService {
 		return buyer;
 	}
 
-	public static Buyer remove(DaoInterface<Buyer> buyerDao, String cpf) throws Exception {
+	public Buyer remove(String cpf) throws Exception {
 		BuyerService.validateCpf(cpf);
 
 		Buyer buyer = buyerDao.read(cpf);
@@ -84,15 +90,15 @@ public class BuyerService {
 		return buyer;
 	}
 
-	public static Buyer read(DaoInterface<Buyer> buyerDao, String cpf) {
+	public Buyer read(String cpf) {
 		return buyerDao.read(cpf);
 	}
 
-	public static List<Buyer> readAll(DaoInterface<Buyer> buyerDao) {
+	public List<Buyer> readAll() {
 		return buyerDao.readAll();
 	}
 
-	public static List<Buyer> searchByField(DaoInterface<Buyer> buyerDao, String field, Object value) {
+	public List<Buyer> searchByField(String field, Object value) {
 		return buyerDao.searchByField(field, value);
 	}
 }

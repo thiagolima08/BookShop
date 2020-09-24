@@ -53,12 +53,12 @@ public class Create {
 
 		List<Book> books = new ArrayList<Book>();
 		books.add(getBook("Harry Potter e a Pedra Filosofal", "8532530788", "Rocco", "J. K. Rowling", 28.73));
-		books.add(getBook("Harry Potter e a CÃ¢mara Secreta", "8532530796", "Rocco", "J. K. Rowling", 29.93));
+		books.add(getBook("Harry Potter e a Câmara Secreta", "8532530796", "Rocco", "J. K. Rowling", 29.93));
 		books.add(getBook("Harry Potter e o Prisioneiro de Azkaban", "853253080X", "Rocco", "J. K. Rowling", 28.90));
-		books.add(getBook("Harry Potter e o CÃ¡lice de Fogo", "8532530818", "Rocco", "J. K. Rowling", 38.53));
-		books.add(getBook("Harry Potter e a Ordem da FÃªnix", "8532530826", "Rocco", "J. K. Rowling", 52.40));
-		books.add(getBook("Harry Potter e o Enigma do PrÃ­ncipe", "8532530834", "Rocco", "J. K. Rowling", 35.40));
-		books.add(getBook("Harry Potter e as RelÃ­quias da Morte", "8532530842", "Rocco", "J. K. Rowling", 48.68));
+		books.add(getBook("Harry Potter e o Cálice de Fogo", "8532530818", "Rocco", "J. K. Rowling", 38.53));
+		books.add(getBook("Harry Potter e a Ordem da Fênix", "8532530826", "Rocco", "J. K. Rowling", 52.40));
+		books.add(getBook("Harry Potter e o Enigma do Príncipe", "8532530834", "Rocco", "J. K. Rowling", 35.40));
+		books.add(getBook("Harry Potter e as Relíquias da Morte", "8532530842", "Rocco", "J. K. Rowling", 48.68));
 
 		List<String> isbns = new ArrayList<String>();
 		Double total = 0.0;
