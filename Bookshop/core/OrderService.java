@@ -2,7 +2,7 @@ package core;
 
 import java.util.List;
 
-import bookshop.dao.OrderDao;
+import bookshop.dao.DaoInterface;
 import bookshop.exception.NonexistentResourceException;
 import bookshop.exception.RequiredException;
 import bookshop.model.Book;
@@ -20,7 +20,7 @@ public class OrderService {
 			throw new RequiredException("pedido[livros]");
 	}
 
-	public static Order create(OrderDao orderDao, Buyer buyer, List<Book> books, Boolean paid) throws Exception {
+	public static Order create(DaoInterface<Order> orderDao, Buyer buyer, List<Book> books, Boolean paid) throws Exception {
 		OrderService.validateBuyer(buyer);
 		OrderService.validateBooks(books);
 		Order order = new Order(buyer, books, paid);
@@ -28,7 +28,7 @@ public class OrderService {
 		return order;
 	}
 
-	public static Order update(OrderDao orderDao, Integer number, Buyer buyer, List<Book> books, Boolean paid) throws Exception {
+	public static Order update(DaoInterface<Order> orderDao, Integer number, Buyer buyer, List<Book> books, Boolean paid) throws Exception {
 		OrderService.validateBuyer(buyer);
 		OrderService.validateBooks(books);
 
@@ -45,7 +45,7 @@ public class OrderService {
 		return order;
 	}
 
-	public static Order remove(OrderDao orderDao, Integer number) throws Exception {
+	public static Order remove(DaoInterface<Order> orderDao, Integer number) throws Exception {
 		Order order = orderDao.read(number);
 
 		if (order == null) {
@@ -57,15 +57,15 @@ public class OrderService {
 		return order;
 	}
 
-	public static Order read(OrderDao orderDao, Integer number) {
+	public static Order read(DaoInterface<Order> orderDao, Integer number) {
 		return orderDao.read(number);
 	}
 
-	public static List<Order> readAll(OrderDao orderDao) {
+	public static List<Order> readAll(DaoInterface<Order> orderDao) {
 		return orderDao.readAll();
 	}
 
-	public static List<Order> searchByField(OrderDao orderDao, String field, Object value) {
+	public static List<Order> searchByField(DaoInterface<Order> orderDao, String field, Object value) {
 		return orderDao.searchByField(field, value);
 	}
 }

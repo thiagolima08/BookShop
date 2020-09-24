@@ -2,7 +2,7 @@ package core;
 
 import java.util.List;
 
-import bookshop.dao.BookDao;
+import bookshop.dao.DaoInterface;
 import bookshop.exception.DuplicatedResourceException;
 import bookshop.exception.NonexistentResourceException;
 import bookshop.exception.RequiredException;
@@ -37,7 +37,7 @@ public class BookService {
 			throw new ValidationException("livro[preço] não pode ser negativo");
 	}
 
-	public static Book create(BookDao bookDao, String title, String isbn, String publisher, String author, Double price) throws Exception {
+	public static Book create(DaoInterface<Book> bookDao, String title, String isbn, String publisher, String author, Double price) throws Exception {
 		BookService.validateTitle(title);
 		BookService.validateIsbn(isbn);
 		BookService.validatePublisher(publisher);
@@ -55,7 +55,7 @@ public class BookService {
 		return book;
 	}
 
-	public static Book update(BookDao bookDao, String title, String isbn, String publisher, String author, Double price) throws Exception {
+	public static Book update(DaoInterface<Book> bookDao, String title, String isbn, String publisher, String author, Double price) throws Exception {
 		BookService.validateTitle(title);
 		BookService.validateIsbn(isbn);
 		BookService.validatePublisher(publisher);
@@ -76,7 +76,7 @@ public class BookService {
 		return book;
 	}
 
-	public static Book remove(BookDao bookDao, String isbn) throws Exception {
+	public static Book remove(DaoInterface<Book> bookDao, String isbn) throws Exception {
 		BookService.validateIsbn(isbn);
 
 		Book book = bookDao.read(isbn);
@@ -90,15 +90,15 @@ public class BookService {
 		return book;
 	}
 
-	public static Book read(BookDao bookDao, String isbn) {
+	public static Book read(DaoInterface<Book> bookDao, String isbn) {
 		return bookDao.read(isbn);
 	}
 
-	public static List<Book> readAll(BookDao bookDao) {
+	public static List<Book> readAll(DaoInterface<Book> bookDao) {
 		return bookDao.readAll();
 	}
 
-	public static List<Book> searchByField(BookDao bookDao, String field, Object value) {
+	public static List<Book> searchByField(DaoInterface<Book> bookDao, String field, Object value) {
 		return bookDao.searchByField(field, value);
 	}
 }
