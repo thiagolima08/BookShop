@@ -3,7 +3,7 @@ package core;
 import java.util.ArrayList;
 import java.util.List;
 
-import bookshop.dao.AbstractDao;
+import bookshop.dao.GenericDao;
 import bookshop.dao.BookDao;
 import bookshop.dao.BuyerDao;
 import bookshop.dao.OrderDao;
@@ -17,60 +17,60 @@ public class BookshopFacade {
 	private static OrderDao orderDao = new OrderDao();
 
 	public static void start() {
-		AbstractDao.open();
+		GenericDao.open();
 	}
 
 	public static void end() {
-		AbstractDao.close();
+		GenericDao.close();
 	}
 
 	/*
 	 * Buyers
 	 */
 	public static void createBuyer(String name, String cpf, String phone, String email) throws Exception {
-		AbstractDao.begin();
+		GenericDao.begin();
 		try {
 			BuyerService.create(buyerDao, name, cpf, phone, email);
 		} catch (Exception e) {
-			AbstractDao.rollback();
+			GenericDao.rollback();
 			throw e;
 		}
-		AbstractDao.commit();
+		GenericDao.commit();
 	}
 
 	public static void updateBuyer(String name, String cpf, String phone, String email) throws Exception {
-		AbstractDao.begin();
+		GenericDao.begin();
 		try {
 			BuyerService.update(buyerDao, name, cpf, phone, email);
 		} catch (Exception e) {
-			AbstractDao.rollback();
+			GenericDao.rollback();
 			throw e;
 		}
-		AbstractDao.commit();
+		GenericDao.commit();
 	}
 
 	public static void removeBuyer(String cpf) throws Exception {
-		AbstractDao.begin();
+		GenericDao.begin();
 		try {
 			BuyerService.remove(buyerDao, cpf);
 		} catch (Exception e) {
-			AbstractDao.rollback();
+			GenericDao.rollback();
 			throw e;
 		}
-		AbstractDao.commit();
+		GenericDao.commit();
 	}
 
 	public static Buyer getBuyer(String cpf) throws Exception {
 		Buyer buyer = null;
 
-		AbstractDao.begin();
+		GenericDao.begin();
 		try {
 			buyer = BuyerService.read(buyerDao, cpf);
 		} catch (Exception e) {
-			AbstractDao.rollback();
+			GenericDao.rollback();
 			throw e;
 		}
-		AbstractDao.commit();
+		GenericDao.commit();
 
 		return buyer;
 	}
@@ -78,14 +78,14 @@ public class BookshopFacade {
 	public static List<Buyer> listAllBuyers() throws Exception {
 		List<Buyer> buyers = null;
 
-		AbstractDao.begin();
+		GenericDao.begin();
 		try {
 			buyers = BuyerService.readAll(buyerDao);
 		} catch (Exception e) {
-			AbstractDao.rollback();
+			GenericDao.rollback();
 			throw e;
 		}
-		AbstractDao.commit();
+		GenericDao.commit();
 
 		return buyers;
 	}
@@ -93,14 +93,14 @@ public class BookshopFacade {
 	public static List<Buyer> findBuyersByName(String name) throws Exception {
 		List<Buyer> buyers = null;
 
-		AbstractDao.begin();
+		GenericDao.begin();
 		try {
 			buyers = BuyerService.searchByField(buyerDao, "name", name);
 		} catch (Exception e) {
-			AbstractDao.rollback();
+			GenericDao.rollback();
 			throw e;
 		}
-		AbstractDao.commit();
+		GenericDao.commit();
 
 		return buyers;
 	}
@@ -109,49 +109,49 @@ public class BookshopFacade {
 	 * Books
 	 */
 	public static void createBook(String title, String isbn, String publisher, String author, Double price) throws Exception {
-		AbstractDao.begin();
+		GenericDao.begin();
 		try {
 			BookService.create(bookDao, title, isbn, publisher, author, price);
 		} catch (Exception e) {
-			AbstractDao.rollback();
+			GenericDao.rollback();
 			throw e;
 		}
-		AbstractDao.commit();
+		GenericDao.commit();
 	}
 
 	public static void updateBook(String title, String isbn, String publisher, String author, Double price) throws Exception {
-		AbstractDao.begin();
+		GenericDao.begin();
 		try {
 			BookService.update(bookDao, title, isbn, publisher, author, price);
 		} catch (Exception e) {
-			AbstractDao.rollback();
+			GenericDao.rollback();
 			throw e;
 		}
-		AbstractDao.commit();
+		GenericDao.commit();
 	}
 
 	public static void removeBook(String isbn) throws Exception {
-		AbstractDao.begin();
+		GenericDao.begin();
 		try {
 			BookService.remove(bookDao, isbn);
 		} catch (Exception e) {
-			AbstractDao.rollback();
+			GenericDao.rollback();
 			throw e;
 		}
-		AbstractDao.commit();
+		GenericDao.commit();
 	}
 
 	public static Book getBook(String isbn) throws Exception {
 		Book book = null;
 
-		AbstractDao.begin();
+		GenericDao.begin();
 		try {
 			book = BookService.read(bookDao, isbn);
 		} catch (Exception e) {
-			AbstractDao.rollback();
+			GenericDao.rollback();
 			throw e;
 		}
-		AbstractDao.commit();
+		GenericDao.commit();
 
 		return book;
 	}
@@ -159,14 +159,14 @@ public class BookshopFacade {
 	public static List<Book> listAllBooks() throws Exception {
 		List<Book> books = null;
 
-		AbstractDao.begin();
+		GenericDao.begin();
 		try {
 			books = BookService.readAll(bookDao);
 		} catch (Exception e) {
-			AbstractDao.rollback();
+			GenericDao.rollback();
 			throw e;
 		}
-		AbstractDao.commit();
+		GenericDao.commit();
 
 		return books;
 	}
@@ -174,14 +174,14 @@ public class BookshopFacade {
 	public static List<Book> findBooksByTitle(String title) throws Exception {
 		List<Book> books = null;
 
-		AbstractDao.begin();
+		GenericDao.begin();
 		try {
 			books = BookService.searchByField(bookDao, "title", title);
 		} catch (Exception e) {
-			AbstractDao.rollback();
+			GenericDao.rollback();
 			throw e;
 		}
-		AbstractDao.commit();
+		GenericDao.commit();
 
 		return books;
 	}
@@ -190,7 +190,7 @@ public class BookshopFacade {
 	 * Orders
 	 */
 	public static void createOrder(String cpf, List<String> isbns, Boolean paid) throws Exception {
-		AbstractDao.begin();
+		GenericDao.begin();
 		try {
 			Buyer buyer = BuyerService.read(buyerDao, cpf);
 			List<Book> books = new ArrayList<Book>();
@@ -199,14 +199,14 @@ public class BookshopFacade {
 			}
 			OrderService.create(orderDao, buyer, books, paid);
 		} catch (Exception e) {
-			AbstractDao.rollback();
+			GenericDao.rollback();
 			throw e;
 		}
-		AbstractDao.commit();
+		GenericDao.commit();
 	}
 
 	public static void updateOrder(Integer number, String cpf, List<String> isbns, Boolean paid) throws Exception {
-		AbstractDao.begin();
+		GenericDao.begin();
 		try {
 			Buyer buyer = BuyerService.read(buyerDao, cpf);
 			List<Book> books = new ArrayList<Book>();
@@ -215,34 +215,34 @@ public class BookshopFacade {
 			}
 			OrderService.update(orderDao, number, buyer, books, paid);
 		} catch (Exception e) {
-			AbstractDao.rollback();
+			GenericDao.rollback();
 			throw e;
 		}
-		AbstractDao.commit();
+		GenericDao.commit();
 	}
 
 	public static void removeOrder(Integer number) throws Exception {
-		AbstractDao.begin();
+		GenericDao.begin();
 		try {
 			OrderService.remove(orderDao, number);
 		} catch (Exception e) {
-			AbstractDao.rollback();
+			GenericDao.rollback();
 			throw e;
 		}
-		AbstractDao.commit();
+		GenericDao.commit();
 	}
 
 	public static Order getOrder(Integer number) throws Exception {
 		Order order = null;
 
-		AbstractDao.begin();
+		GenericDao.begin();
 		try {
 			order = OrderService.read(orderDao, number);
 		} catch (Exception e) {
-			AbstractDao.rollback();
+			GenericDao.rollback();
 			throw e;
 		}
-		AbstractDao.commit();
+		GenericDao.commit();
 
 		return order;
 	}
@@ -250,14 +250,14 @@ public class BookshopFacade {
 	public static List<Order> listAllOrders() throws Exception {
 		List<Order> orders = null;
 
-		AbstractDao.begin();
+		GenericDao.begin();
 		try {
 			orders = OrderService.readAll(orderDao);
 		} catch (Exception e) {
-			AbstractDao.rollback();
+			GenericDao.rollback();
 			throw e;
 		}
-		AbstractDao.commit();
+		GenericDao.commit();
 
 		return orders;
 	}
@@ -265,14 +265,14 @@ public class BookshopFacade {
 	public static List<Order> findOrdersByIsbn(String isbn) throws Exception {
 		List<Order> orders = null;
 
-		AbstractDao.begin();
+		GenericDao.begin();
 		try {
 			orders = BookService.read(bookDao, isbn).getOrders();
 		} catch (Exception e) {
-			AbstractDao.rollback();
+			GenericDao.rollback();
 			throw e;
 		}
-		AbstractDao.commit();
+		GenericDao.commit();
 
 		return orders;
 	}
@@ -280,14 +280,14 @@ public class BookshopFacade {
 	public static List<Order> findOrdersByCpf(String cpf) throws Exception {
 		List<Order> orders = null;
 
-		AbstractDao.begin();
+		GenericDao.begin();
 		try {
 			orders = BuyerService.read(buyerDao, cpf).getOrders();
 		} catch (Exception e) {
-			AbstractDao.rollback();
+			GenericDao.rollback();
 			throw e;
 		}
-		AbstractDao.commit();
+		GenericDao.commit();
 
 		return orders;
 	}

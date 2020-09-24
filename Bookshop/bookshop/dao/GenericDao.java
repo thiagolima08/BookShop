@@ -9,9 +9,19 @@ import com.db4o.ObjectContainer;
 import com.db4o.config.EmbeddedConfiguration;
 import com.db4o.query.Query;
 
-public abstract class AbstractDao<T> implements DaoInterface<T> {
+public class GenericDao<T> implements DaoInterface<T> {
 	protected static ObjectContainer manager;
 	protected static EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
+	private String ID = "_id";
+
+	public GenericDao(String id, boolean update, boolean delete, boolean active) {
+		ID = id;
+		GenericDao.config.common().objectClass(this.getKlass()).objectField(ID).indexed(true);
+		
+		GenericDao.config.common().objectClass(this.getKlass()).cascadeOnUpdate(update);
+		GenericDao.config.common().objectClass(this.getKlass()).cascadeOnDelete(delete);
+		GenericDao.config.common().objectClass(this.getKlass()).cascadeOnActivate(active);
+	}
 
 	/*
 	 * connection
@@ -61,7 +71,18 @@ public abstract class AbstractDao<T> implements DaoInterface<T> {
 		manager.delete(obj);
 	}
 
-	public abstract T read(Object chave);
+	
+	public T read(Object key) {
+		Query q = manager.query();
+		q.constrain(this.getKlass());
+		q.descend(ID).constrain(key);
+
+		List<T> list = q.execute();
+		if (list.size() > 0)
+			return list.get(0);
+		else
+			return null;
+	}
 
 	public List<T> readAll() {
 		Query q = manager.query();
