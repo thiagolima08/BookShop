@@ -2,7 +2,7 @@ package core;
 
 import java.util.List;
 
-import bookshop.dao.BookDao;
+import bookshop.dao.DaoInterface;
 import bookshop.exception.DuplicatedResourceException;
 import bookshop.exception.NonexistentResourceException;
 import bookshop.exception.RequiredException;
@@ -10,6 +10,12 @@ import bookshop.exception.ValidationException;
 import bookshop.model.Book;
 
 public class BookService {
+	private DaoInterface<Book> bookDao;
+
+	public BookService(DaoInterface<Book> bookDao) {
+		this.bookDao = bookDao;
+	}
+
 	private static void validateTitle(String title) throws Exception {
 		if (title.isEmpty())
 			throw new RequiredException("livro[título]");
@@ -37,7 +43,7 @@ public class BookService {
 			throw new ValidationException("livro[preço] não pode ser negativo");
 	}
 
-	public static Book create(BookDao bookDao, String title, String isbn, String publisher, String author, Double price) throws Exception {
+	public Book create(String title, String isbn, String publisher, String author, Double price) throws Exception {
 		BookService.validateTitle(title);
 		BookService.validateIsbn(isbn);
 		BookService.validatePublisher(publisher);
@@ -55,7 +61,7 @@ public class BookService {
 		return book;
 	}
 
-	public static Book update(BookDao bookDao, String title, String isbn, String publisher, String author, Double price) throws Exception {
+	public Book update(String title, String isbn, String publisher, String author, Double price) throws Exception {
 		BookService.validateTitle(title);
 		BookService.validateIsbn(isbn);
 		BookService.validatePublisher(publisher);
@@ -76,7 +82,7 @@ public class BookService {
 		return book;
 	}
 
-	public static Book remove(BookDao bookDao, String isbn) throws Exception {
+	public Book remove(String isbn) throws Exception {
 		BookService.validateIsbn(isbn);
 
 		Book book = bookDao.read(isbn);
@@ -90,15 +96,15 @@ public class BookService {
 		return book;
 	}
 
-	public static Book read(BookDao bookDao, String isbn) {
+	public Book read(String isbn) {
 		return bookDao.read(isbn);
 	}
 
-	public static List<Book> readAll(BookDao bookDao) {
+	public List<Book> readAll() {
 		return bookDao.readAll();
 	}
 
-	public static List<Book> searchByField(BookDao bookDao, String field, Object value) {
+	public List<Book> searchByField(String field, Object value) {
 		return bookDao.searchByField(field, value);
 	}
 }

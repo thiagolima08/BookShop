@@ -16,7 +16,7 @@ import bookshop.model.Book;
 import bookshop.model.Buyer;
 import core.BookshopFacade;
 
-public class OtherSearchView {
+public class OtherSearchBuyerAndBookView {
 
 	private JFrame frame;
 	private JTextArea textArea;
@@ -25,13 +25,13 @@ public class OtherSearchView {
 	private JButton books_button;
 	private JLabel alert_label;
 
-	public OtherSearchView() {
+	public OtherSearchBuyerAndBookView() {
 		initialize();
 	}
 
 	private void initialize() {
 		frame = new JFrame();
-		frame.setTitle("Listar");
+		frame.setTitle("Listar Clientes e Livros por nome");
 		frame.setBounds(100, 100, 400, 200);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -103,17 +103,17 @@ public class OtherSearchView {
 	
 	private void createInput() {
 		search_input = new JTextField();
-		search_input.setBounds(10, 115, 160, 20);
+		search_input.setBounds(58, 115, 150, 20);
 		frame.getContentPane().add(search_input);
 	}
 
 	private void createButtons() {
 		buyers_button = new JButton("Clientes");
-		buyers_button.setBounds(175, 112, 100, 25);
+		buyers_button.setBounds(212, 113, 84, 25);
 		frame.getContentPane().add(buyers_button);
 
 		books_button = new JButton("Livros");
-		books_button.setBounds(275, 112, 100, 25);
+		books_button.setBounds(298, 113, 77, 25);
 		frame.getContentPane().add(books_button);
 	}
 
@@ -121,5 +121,9 @@ public class OtherSearchView {
 		alert_label = new JLabel("");
 		alert_label.setBounds(10, 140, 365, 20);
 		frame.getContentPane().add(alert_label);
+		
+		JLabel lblNewLabel = new JLabel("Nome:");
+		lblNewLabel.setBounds(14, 118, 46, 14);
+		frame.getContentPane().add(lblNewLabel);
 	}
 }

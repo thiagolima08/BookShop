@@ -22,7 +22,7 @@ public class Delete {
 			List<Order> orders = BookshopFacade.listAllOrders();
 			for (Order order : orders) {
 				System.out.println("excluindo " + order.getNumber());
-				BookshopFacade.removeOrder(order.getNumber());
+				BookshopFacade.removeOrder(Integer.valueOf(order.getNumber()));
 			}
 			
 			List<Buyer> buyers = BookshopFacade.listAllBuyers();
