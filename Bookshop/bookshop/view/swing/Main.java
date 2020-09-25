@@ -166,10 +166,18 @@ public class Main {
 		});
 		menu.add(menuItem);
 
-		menuItem = new JMenuItem("Consultar");
+		menuItem = new JMenuItem("Consultar Clientes e Livros por name");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new OtherSearchView();
+				new OtherSearchBuyerAndBookView();
+			}
+		});
+		menu.add(menuItem);
+		
+		menuItem = new JMenuItem("Consultar Pedidos por Clientes e Livros");
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new OtherSearchOrderView();
 			}
 		});
 		menu.add(menuItem);
